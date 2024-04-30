@@ -1,7 +1,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
-#include <miniz.h>
+#include <miniz/miniz.h>
 
 #if defined(_WIN32)
 /* The 'MakeDirectory' function is used to create a directory (folder) in the file system.*/

@@ -9,7 +9,7 @@
 #define MINIZ_NO_TIME
 #define MINIZ_NO_ZLIB_APIS
 #define MINIZ_NO_MALLOC
-#include "miniz.h"
+#include <miniz/miniz.h>
 
 // Now include stdio.h because this test uses fopen(), etc. (but we still don't want miniz.c's stdio stuff, for testing).
 #include <stdio.h>
