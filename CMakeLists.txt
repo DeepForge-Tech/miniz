@@ -86,16 +86,10 @@ if(AMALGAMATE_SOURCES)
              "${AMAL_MINIZ_C}" "\n#endif // MINIZ_HEADER_FILE_ONLY\n")
     file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/amalgamation/miniz.h "${AMAL_MINIZ_H}")
     add_library(${PROJECT_NAME} INTERFACE)
-    
-    # Might not be a good idea to force this on the library user
-    # as it could bloat the global namespace
-    # https://github.com/libevent/libevent/issues/460
-    # target_compile_definitions(${PROJECT_NAME} 
-    #     INTERFACE $<$<C_COMPILER_ID:GNU>:_GNU_SOURCE>)
-    
+
     set_property(TARGET ${PROJECT_NAME} APPEND 
       PROPERTY INTERFACE_INCLUDE_DIRECTORIES
-      $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/amalgamation>
+      $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/amalgamation/include/miniz>
       $<INSTALL_INTERFACE:include>
     )
   else(BUILD_HEADER_ONLY)
@@ -139,7 +133,11 @@ if(AMALGAMATE_SOURCES)
 	)
 else(AMALGAMATE_SOURCES)
   include(GenerateExportHeader)
-  set(miniz_SOURCE miniz.c miniz_zip.c miniz_tinfl.c miniz_tdef.c)
+  set(miniz_SOURCE 
+    src/miniz.c 
+    src/miniz_zip.c 
+    src/miniz_tinfl.c 
+    src/miniz_tdef.c)
   add_library(${PROJECT_NAME} ${miniz_SOURCE})
   generate_export_header(${PROJECT_NAME})
 
@@ -155,7 +153,7 @@ else(AMALGAMATE_SOURCES)
   set_property(TARGET ${PROJECT_NAME} PROPERTY SOVERSION ${MINIZ_API_VERSION})
   
   target_include_directories(${PROJECT_NAME} PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
     $<INSTALL_INTERFACE:include>
   )

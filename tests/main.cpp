@@ -1,5 +1,5 @@
-#include "catch_amalgamated.hpp"
-#include "../miniz.h"
+#include <miniz/catch_amalgamated.hpp>
+#include <miniz/miniz.h>
 #include <assert.h>
 #include <string>
 

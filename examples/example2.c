@@ -13,7 +13,7 @@
 #endif
 
 #include <stdio.h>
-#include "miniz.h"
+#include <miniz/miniz.h>
 
 typedef unsigned char uint8;
 typedef unsigned short uint16;
