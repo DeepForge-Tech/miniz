@@ -110,7 +110,13 @@ void UnpackArchive(std::string path_from, std::string path_to)
                 continue;
             }
 
-            void *fileData = mz_zip_reader_extract_to_heap(&zip_archive, file_stat.m_file_index, &file_stat.m_uncomp_size, 0); // You can adjust the flags parameter as needed
+            #if defined(__APPLE__)
+                size_t fileSize = file_stat.m_uncomp_size;
+                void *fileData = mz_zip_reader_extract_to_heap(&zip_archive, file_stat.m_file_index, &fileSize, 0);
+            #else
+                void *fileData = mz_zip_reader_extract_to_heap(&zip_archive, file_stat.m_file_index, &file_stat.m_uncomp_size, 0); // You can adjust the flags parameter as needed
+            #endif
+            
             if (!fileData)
             {
                 std::cerr << "Failed to extract file: " << file_stat.m_filename << std::endl;
